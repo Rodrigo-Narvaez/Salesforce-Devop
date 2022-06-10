@@ -29,6 +29,11 @@ public class MiClasePruebaUno {
                           ORDER BY CreatedDate)];
         
     }
+
+    @InvocableMethod(label='Prueba Flow')
+    public static void pruebaFlow(){
+        system.debug('Mensaje de prueba');
+    }
     
     /*
     public void DML(){
