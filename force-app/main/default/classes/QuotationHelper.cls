@@ -7,20 +7,20 @@ public class QuotationHelper implements QuotationSync {
         system.debug('Cuenta agregada: ' + objAcc);
     }
     
-    public List<inventario__c> productsInInventory(){
+    public static List<inventario__c> productsInInventory(){
         List<Inventario__c> objInv = new List<Inventario__c>();
         Return objInv = [SELECT Cantidad_apart__c,Cantidad_dis__c,CodigoProd__c,Name,Name__c FROM inventario__c];
     }
     
-    public String confirmProductExistByCode(String codigoProd){
-        Product2 pro = new Product2();
-        String retorno = 'TRUE';
+    public Boolean confirmProductExistByCode(String codigoProd){
+        Boolean res = TRUE;
+        List<Product2> pro = new List<Product2>();
         pro = [SELECT ProductCode, ExternalId FROM Product2 WHERE ProductCode=:codigoProd];
-        if(pro != NULL){
-             return retorno;     
+        if(pro.size() > 0){
+             return res;     
         }else{
-            retorno = 'FALSE';
-            return retorno;
+            res = FALSE;
+            return res;
         } 
     }
     
@@ -28,7 +28,7 @@ public class QuotationHelper implements QuotationSync {
         inventario__c objcod = new inventario__c(); 
         objcod = [SELECT Cantidad_dis__c,CodigoProd__c FROM inventario__c WHERE CodigoProd__c=:codigoProd];
         String sCantDis = String.valueOf(objcod.Cantidad_dis__c);
-        if(objcod.Cantidad_dis__c == NULL){
+        if(objcod.Cantidad_dis__c == 0){
             sCantDis = '0';
             return sCantDis;
         }else{
@@ -36,6 +36,27 @@ public class QuotationHelper implements QuotationSync {
              return sCantDis;
         } 
     }
-    
+
+    public void updateRecords(String codProd, Integer Quantity){
+
+        inventario__c reservacion = new inventario__c();
+        reservacion = [SELECT Cantidad_apart__c FROM inventario__c WHERE CodigoProd__c=: codProd LIMIT 1];
+        system.debug('Cantidad reservada: ' + Quantity);
+        reservacion.Cantidad_apart__c =+ Quantity;
+        system.debug('Total de cantidad reservada:' + reservacion.Cantidad_apart__c);
+        UPDATE reservacion;
+    }
+	@InvocableMethod (label = 'Cantidad de productos')
+	public static void StockEmptyAlert(){
+        List<Inventario__c> lstInventario = new List<Inventario__c>();
+        lstInventario = productsInInventory();
+        //system.debug('Lista ---->' + lstInventario);
+        Date fecha = System.today();
+        for (Inventario__c objInv : lstInventario) {
+            if (objInv.Cantidad_dis__c == 0 ) {
+                system.debug('ALERTA, existen productos sin cantidad disponible ' + fecha);  
+            }
+        }
+    }    
    
 }
