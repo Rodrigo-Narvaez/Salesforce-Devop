@@ -1,0 +1,6 @@
+<apex:page renderAs="pdf">
+    <apex:pageBlock >	
+    	<apex:outputLabel >Prueba</apex:outputLabel>
+        
+    </apex:pageBlock>
+</apex:page>

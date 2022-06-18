@@ -1,0 +1,20 @@
+<apex:page standardController="Quote" extensions="CustomWebInventoryController">
+    <apex:pageBlock >
+    	<apex:form >
+            <apex:outputLabel value="Buscar Producto"/>
+            <apex:inputText value="{!codigo}" label="Codigo de producto"/>
+            <apex:commandButton value="Buscar" action="{!buscar}"/>
+            
+            	<apex:pageBlockTable value="{!listInv}" var="inv">
+                    <apex:column value="{!inv.Name__c}"/>
+            		<apex:column value="{!inv.CodigoProd__c}"/>
+            		<apex:column value="{!inv.Cantidad_dis__c}"/>
+                    <apex:column value="{!inv.Cantidad_apart__c}"/>
+            	</apex:pageBlockTable>
+            <apex:commandButton value="Cancel" action="{!cancel}"/>
+        </apex:form>
+    </apex:pageBlock>
+    
+    
+    
+</apex:page>

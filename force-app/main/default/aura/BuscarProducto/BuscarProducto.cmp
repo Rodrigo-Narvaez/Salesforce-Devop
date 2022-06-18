@@ -1,0 +1,32 @@
+<aura:component controller = "CustomWebInventoryController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+	<aura:handler name="init" value="{!this}" action ="{!c.doInit}" />
+    <aura:attribute name="inventario" type="Object"/>
+    <br></br>
+     <lightning:input name="codigoP" label="Codigo del producto"/>
+    <lightning:button variant="brand" label="Buscar Producto" />
+    <div>
+    	<table class="slds-table slds-table--bordered slds-table--striped">
+         <thead>
+        	<tr>
+            	<th scope="col" > <span class="slds-truncate"> Nombre</span></th>
+                <th scope="col" > <span class="slds-truncate"> Codigo del Producto</span></th>
+                <th scope="col" > <span class="slds-truncate"> Cantidad Disponible</span></th>
+                <th scope="col" > <span class="slds-truncate"> Cantidad Apartada</span></th>
+                
+            </tr>        
+         </thead>
+         <tbody>
+            <aura:iteration items="{!v.inventario}" var="objInv">
+             <tr>
+             	<td>{!objInv.Name__c}</td>
+                <td>{!objInv.CodigoProd__c}</td>  
+                <td>{!objInv.Cantidad_dis__c}</td>
+                <td>{!objInv.Cantidad_apart__c}</td> 
+               
+             </tr>
+            </aura:iteration>
+         </tbody>
+       </table>
+    </div>
+    
+</aura:component>

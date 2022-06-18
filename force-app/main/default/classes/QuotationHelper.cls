@@ -1,5 +1,6 @@
 public class QuotationHelper implements QuotationSync {
     
+    
     public void initialConfig(){
         Account objAcc = new Account();
         objAcc.Name = 'Compuworld';
